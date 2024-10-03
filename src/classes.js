@@ -12,21 +12,15 @@ class Todo {
 
 
 class Project {
-    //private properties
-    #projectName = "";
+    //private property
     #list = [];
+
+    constructor(projectName) {
+        this.projectName = projectName;
+    }
 
     appendTask(task) {
         this.#list.push(task);
-    }
-
-    get projectName() {
-        return this.#projectName;
-    }
-
-    set projectName(name) {
-        if (name === "") alert("Project must have a name.")
-        else this.#projectName = name;
     }
 
     get listLength() {
