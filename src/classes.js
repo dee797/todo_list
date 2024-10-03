@@ -1,10 +1,11 @@
 // include options to modify each todo (...)
 class Todo {
-    constructor(title, description, dueDate, priority, isDone=false) {
+    constructor(title, description, dueDate, priority, project, isDone=false) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.project = project;
         this.isDone = isDone;
     }
 }
