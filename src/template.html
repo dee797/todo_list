@@ -8,14 +8,14 @@
 <body>
     <h1>Task Manager</h1>
 
-    <aside>
+    <section>
         <h1>Projects</h1>
         <p id="noProjects">You currently have no projects.</p>
         <div id="projects"></div>
-        <button id="addProjectBtn"></button>
-    </aside>
+        <button id="addProjectBtn">Add New Project</button>
+    </section>
 
-    <main>
+    <section>
         <h1>Tasks</h1>
         <p id="noTasks">You currently have no tasks.</p>
 
@@ -33,7 +33,7 @@
 
         <div id="tasks"></div>
         <button id="addTaskBtn">Add New Task</button>
-    </main>
+    </section>
 
     <dialog id="addProject">
         <form id="projectForm">
@@ -44,8 +44,8 @@
                 </label>
             </p>
 
-            <button type="button" id="cancel" formmethod="dialog">Cancel</button>
-            <button type="submit" id="submit" formmethod="post">Submit</button>
+            <button type="button" id="cancelProject" formmethod="dialog">Cancel</button>
+            <button type="submit" id="submitProject" formmethod="post">Submit</button>
         </form>
     </dialog>
 
@@ -79,10 +79,22 @@
 
             <p>
                 <label>
+                    Project:
+                    <select id="selectProject">
+                        
+                    </select>
+                </label>
+            </p>
+
+            <p>
+                <label>
                     Description:
                     <textarea></textarea>
                 </label>
             </p>
+
+            <button type="button" id="cancelTask" formmethod="dialog">Cancel</button>
+            <button type="submit" id="submitTask" formmethod="post">Submit</button>
 
         </form>
     </dialog>
