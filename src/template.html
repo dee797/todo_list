@@ -12,7 +12,7 @@
         <h1>Projects</h1>
         <p id="noProjects">You currently have no projects.</p>
         <div id="projects"></div>
-
+        <button id="addProjectBtn"></button>
     </aside>
 
     <main>
@@ -27,11 +27,64 @@
             <h2>Project</h2>
             <details>
                 <p>Description</p>
-                <p id="description"></p>
+                <p id="description" contenteditable="true"></p>
             </details>
         </div>
 
         <div id="tasks"></div>
+        <button id="addTaskBtn">Add New Task</button>
     </main>
+
+    <dialog id="addProject">
+        <form id="projectForm">
+            <p>
+                <label>
+                    Project Name:
+                    <input id="projectName" name="projectName" type="text" maxlength="75" autofocus required autocomplete="off">
+                </label>
+            </p>
+
+            <button type="button" id="cancel" formmethod="dialog">Cancel</button>
+            <button type="submit" id="submit" formmethod="post">Submit</button>
+        </form>
+    </dialog>
+
+    <dialog id="addTask">
+        <form id="taskForm">
+            <p>
+                <label>
+                    Title:
+                    <input id="title" name="title" type="text" maxlength="75" autofocus required autocomplete="off">
+                </label>
+            </p>
+
+            <p>
+                <label>
+                    Due Date:
+                    <input id="dueDate" name="dueDate" type="date" required autocomplete="off">
+                </label>
+            </p>
+
+            <p>
+                Priority:
+                <label for="high">High</label>
+                <input id="high" name="priority" type="radio" value="High" required>
+
+                <label for="medium">Medium</label>
+                <input id="medium" name="priority" type="radio" value="Medium" required>
+                
+                <label for="low">Low</label>
+                <input id="low" name="priority" type="radio" value="Low" required>
+            </p>
+
+            <p>
+                <label>
+                    Description:
+                    <textarea></textarea>
+                </label>
+            </p>
+
+        </form>
+    </dialog>
 </body>
 </html>
