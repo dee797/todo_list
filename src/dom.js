@@ -38,11 +38,18 @@ function addEvents() {
     nodes.addTaskBtn.addEventListener("click", () => {
         nodes.taskForm.reset();
 
+        if (projects.length === 0) {
+            projects.push(new Project("Project 1", 0));
+            toggleProjectDisplay(false);
+            appendProjects();
+        }
+
+        nodes.projectOptions.textContent = "";
+    
         for (const project of projects) {
-            nodes.projectOptions.textContent = "";
             const option = document.createElement("option");
             option.textContent = project.projectName;
-            option.value = project.projectName;
+            option.value = project.projectID;
             nodes.projectOptions.appendChild(option);
         }
 
@@ -54,7 +61,7 @@ function addEvents() {
         const data = Object.fromEntries(new FormData(nodes.projectForm));
         e.preventDefault();
         nodes.addProjectDialog.close();
-        projects.push(new Project(data.projectName));
+        projects.push(new Project(data.projectName, projects.length));
         toggleProjectDisplay(false);
         appendProjects();
     });
@@ -70,7 +77,7 @@ function addEvents() {
         let projectObj;
 
         for (const project of projects) {
-            if (project.projectName === data.selectProject) {
+            if (project.projectID == data.selectProject) {
                 projectObj = project;
                 break;
             }
@@ -101,10 +108,12 @@ function addEvents() {
 function toggleProjectDisplay(toggleOff) {
     if (toggleOff) {
         document.querySelector("#noProjects").style.display = "block";
+        document.querySelector("#projectFilter").style.display = "none";
         document.querySelector("#projects").style.display = "none";
         return false;
     } else {
         document.querySelector("#noProjects").style.display = "none";
+        document.querySelector("#projectFilter").style.display = "block";
         document.querySelector("#projects").style.display = "flex";
         return true;
     }
