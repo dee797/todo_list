@@ -12,19 +12,18 @@ class Todo {
 
 
 class Project {
-    //private property
-    #list = [];
+    list = [];
 
     constructor(projectName) {
         this.projectName = projectName;
     }
 
     appendTask(task) {
-        this.#list.push(task);
+        this.list.push(task);
     }
 
     get listLength() {
-        return this.#list.length;
+        return this.list.length;
     }
 
 }
