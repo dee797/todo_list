@@ -20,9 +20,12 @@ const nodes = (function () {
 
     const projectOptions = document.querySelector("#selectProject");
 
+    const tasksDiv = document.querySelector("#tasks");
+
     return { addProjectBtn, addTaskBtn, addProjectDialog, 
             addTaskDialog, projectForm, taskForm,
-            cancelProjectBtn, cancelTaskBtn, projectOptions }
+            cancelProjectBtn, cancelTaskBtn, projectOptions,
+            tasksDiv }
 }());
 
 
@@ -54,7 +57,7 @@ function addEvents() {
         nodes.addProjectDialog.close();
         projects.push(new Project(data.projectName));
         const canDisplay = toggleProjectDisplay();
-        displayProjects(canDisplay);
+        if (canDisplay) appendProjects();
     });
 
 
@@ -62,10 +65,23 @@ function addEvents() {
         const data = Object.fromEntries(new FormData(nodes.taskForm));
         e.preventDefault();
         nodes.addTaskDialog.close();
-        tasks.push(new Todo(data.title, data.description, data.dueDate,
-                            data.priority, data.selectProject));
+        const newTask = new Todo(data.title, data.description, data.dueDate,
+            data.priority, data.selectProject);
+        
+        tasks.push(newTask);
+        let projectObj;
+
+        for (const project of projects) {
+            if (project.name === data.selectProject) {
+                projectObj = project;
+                break;
+            }
+        }
+
+        projectObj.appendTask(newTask);
+
         const canDisplay = toggleTaskDisplay();
-        displayTasks(canDisplay);
+        if (canDisplay) appendTask(newTask);
     });
 
 
@@ -102,22 +118,58 @@ function toggleTaskDisplay() {
     if (tasks.length === 0) {
         document.querySelector("#noTasks").style.display = "block";
         document.querySelector("#tasks").style.display = "none";
+        document.querySelector("#heading").style.display = "none";
         return false;
     } else {
         document.querySelector("#noTasks").style.display = "none";
         document.querySelector("#tasks").style.display = "grid";
+        document.querySelector("#heading").style.display = "grid"
         return true;
     }
 }
 
 
 
-function displayTasks(canDisplay) {
-    if (canDisplay) {
-        tasks.forEach(task => {
-            //display tasks
-        });
+function appendTask(task) {
+
+    const valueList = Object.values(task);
+
+    for (let i = 0; i < 5; i++) {
+        const taskProp = document.createElement("div");
+        taskProp.textContent = valueList[i];
+        nodes.tasksDiv.appendChild(taskProp);
     }
+
+    const isDoneCheckbox = document.createElement("input");
+    isDoneCheckbox.type = "checkbox";
+    isDoneCheckbox.addEventListener("click", () => {
+        task.isDone = task.isDone ? false : true; 
+    });
+
+    nodes.tasksDiv.appendChild(isDoneCheckbox);
+        
 }
+
+
+
+function appendProjects() {
+
+    projects.forEach(project => {
+        const filterCheckbox = document.createElement("input");
+        filterCheckbox.type = "checkbox";
+        filterCheckbox.checked = true;
+        
+        filterCheckbox.addEventListener("click", () => {
+            if (filterCheckbox.checked) {    
+                for (const task of project.list) {
+                    appendTask(task);
+                }
+            }
+        });
+    })
+}
+
+
+
 
 export { addEvents };
