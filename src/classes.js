@@ -18,14 +18,15 @@ class Project {
         this.projectName = projectName;
     }
 
-    appendTask(task) {
+    addTask(task) {
         this.list.push(task);
     }
 
     get listLength() {
         return this.list.length;
     }
-
 }
 
-export { Todo, Project }
+const projects = [new Project("Default Project")];
+
+export { Todo, Project, projects }
