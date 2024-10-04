@@ -23,12 +23,14 @@ body > h1 {
     width: 100%;
 }
 
-#tasks {
+#tasks, #projects {
     margin-bottom: 30px;
+    flex-direction: column;
 }
 
 #tasks input {
     justify-self: flex-start;
+    align-self: flex-start;
     margin: 0px;
 }
 
