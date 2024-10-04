@@ -2,11 +2,11 @@
 class Todo {
     constructor(title, description, dueDate, priority, project, isDone=false) {
         this.title = title;
-        this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
         this.project = project;
         this.isDone = isDone;
+        this.description = description;
     }
 }
 
@@ -27,6 +27,6 @@ class Project {
     }
 }
 
-const projects = [new Project("Default Project")];
+const projects = [new Project("Default_Project")];
 
 export { Todo, Project, projects }
