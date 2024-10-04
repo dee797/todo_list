@@ -1,10 +1,10 @@
 // include options to modify each todo (...)
 class Todo {
-    constructor(title, description, dueDate, priority, project, isDone=false) {
+    constructor(title, description, dueDate, priority, projectID, isDone=false) {
         this.title = title;
         this.dueDate = dueDate;
         this.priority = priority;
-        this.project = project;
+        this.projectID = projectID;
         this.isDone = isDone;
         this.description = description;
     }
@@ -14,8 +14,9 @@ class Todo {
 class Project {
     list = [];
 
-    constructor(projectName) {
+    constructor(projectName, projectID) {
         this.projectName = projectName;
+        this.projectID = projectID;
     }
 
     addTask(task) {
@@ -27,6 +28,6 @@ class Project {
     }
 }
 
-const projects = [new Project("Default_Project")];
+const projects = [];
 
 export { Todo, Project, projects }
