@@ -1,8 +1,4 @@
-import { Todo, Project } from "./classes.js";
-
-const projects = [new Project("Default Project")];
-const tasks = [];
-
+import { Todo, Project, projects } from "./classes.js";
 
 
 const nodes = (function () {
@@ -41,6 +37,7 @@ function addEvents() {
         nodes.taskForm.reset();
 
         for (const project of projects) {
+            nodes.projectOptions.textContent = "";
             const option = document.createElement("option");
             option.textContent = project.projectName;
             option.value = project.projectName;
@@ -56,8 +53,8 @@ function addEvents() {
         e.preventDefault();
         nodes.addProjectDialog.close();
         projects.push(new Project(data.projectName));
-        const canDisplay = toggleProjectDisplay();
-        if (canDisplay) appendProjects();
+        toggleProjectDisplay(false);
+        appendProjects();
     });
 
 
@@ -68,20 +65,19 @@ function addEvents() {
         const newTask = new Todo(data.title, data.description, data.dueDate,
             data.priority, data.selectProject);
         
-        tasks.push(newTask);
         let projectObj;
 
         for (const project of projects) {
-            if (project.name === data.selectProject) {
+            if (project.projectName === data.selectProject) {
                 projectObj = project;
                 break;
             }
         }
 
-        projectObj.appendTask(newTask);
+        projectObj.addTask(newTask);
 
-        const canDisplay = toggleTaskDisplay();
-        if (canDisplay) appendTask(newTask);
+        toggleTaskDisplay(false);
+        appendTask(newTask);
     });
 
 
@@ -100,8 +96,8 @@ function addEvents() {
 
 
 
-function toggleProjectDisplay() {
-    if (projects.length === 0) {
+function toggleProjectDisplay(toggleOff) {
+    if (toggleOff) {
         document.querySelector("#noProjects").style.display = "block";
         document.querySelector("#projects").style.display = "none";
         return false;
@@ -114,17 +110,15 @@ function toggleProjectDisplay() {
 
 
 
-function toggleTaskDisplay() {
-    if (tasks.length === 0) {
+function toggleTaskDisplay(toggleOff) {
+    if (toggleOff) {
         document.querySelector("#noTasks").style.display = "block";
         document.querySelector("#tasks").style.display = "none";
         document.querySelector("#heading").style.display = "none";
-        return false;
     } else {
         document.querySelector("#noTasks").style.display = "none";
         document.querySelector("#tasks").style.display = "grid";
-        document.querySelector("#heading").style.display = "grid"
-        return true;
+        document.querySelector("#heading").style.display = "grid";
     }
 }
 
