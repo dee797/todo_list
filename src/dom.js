@@ -1,4 +1,5 @@
 import { Todo, Project, projects } from "./classes.js";
+import { appendTask, appendProjects } from "./app.js";
 
 
 const nodes = (function () {
@@ -17,11 +18,12 @@ const nodes = (function () {
     const projectOptions = document.querySelector("#selectProject");
 
     const tasksDiv = document.querySelector("#tasks");
+    const projectsDiv = document.querySelector("#projects");
 
     return { addProjectBtn, addTaskBtn, addProjectDialog, 
             addTaskDialog, projectForm, taskForm,
             cancelProjectBtn, cancelTaskBtn, projectOptions,
-            tasksDiv }
+            tasksDiv, projectsDiv }
 }());
 
 
@@ -117,53 +119,11 @@ function toggleTaskDisplay(toggleOff) {
         document.querySelector("#heading").style.display = "none";
     } else {
         document.querySelector("#noTasks").style.display = "none";
-        document.querySelector("#tasks").style.display = "grid";
+        document.querySelector("#tasks").style.display = "flex";
         document.querySelector("#heading").style.display = "grid";
     }
 }
 
 
 
-function appendTask(task) {
-
-    const valueList = Object.values(task);
-
-    for (let i = 0; i < 5; i++) {
-        const taskProp = document.createElement("div");
-        taskProp.textContent = valueList[i];
-        nodes.tasksDiv.appendChild(taskProp);
-    }
-
-    const isDoneCheckbox = document.createElement("input");
-    isDoneCheckbox.type = "checkbox";
-    isDoneCheckbox.addEventListener("click", () => {
-        task.isDone = task.isDone ? false : true; 
-    });
-
-    nodes.tasksDiv.appendChild(isDoneCheckbox);
-        
-}
-
-
-
-function appendProjects() {
-
-    projects.forEach(project => {
-        const filterCheckbox = document.createElement("input");
-        filterCheckbox.type = "checkbox";
-        filterCheckbox.checked = true;
-        
-        filterCheckbox.addEventListener("click", () => {
-            if (filterCheckbox.checked) {    
-                for (const task of project.list) {
-                    appendTask(task);
-                }
-            }
-        });
-    })
-}
-
-
-
-
-export { addEvents };
+export { addEvents, nodes };
