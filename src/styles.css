@@ -17,9 +17,19 @@ body > h1 {
     margin: 0px;
 }
 
-#heading, #tasks {
+#heading, #tasks > div {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+    width: 100%;
+}
+
+#tasks {
+    margin-bottom: 30px;
+}
+
+#tasks input {
+    justify-self: flex-start;
+    margin: 0px;
 }
 
 body section:first-of-type {
