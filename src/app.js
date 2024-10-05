@@ -1,4 +1,5 @@
 import { projects, nodes } from "./classes";
+import { toggleTaskDisplay } from "./dom";
 
 
 const options = (function () {
@@ -30,10 +31,9 @@ const options = (function () {
 
         priorityBtn.addEventListener("click", () => {
             nodes.priorityForm.reset();
-            const priorityOptions = document.querySelectorAll("#priorityForm input");
-            for (const option of priorityOptions) {
-                if (option.value === task.priority) option.checked = true;
-            }
+            const priorityOptions = Array.from(document.querySelectorAll("#priorityForm input"));
+            const option = priorityOptions.find(option => option.value === task.priority);
+            option.checked = true;
 
             nodes.priorityDialog.showModal();
         });
@@ -62,6 +62,8 @@ const options = (function () {
             projectObj.removeTask(task);
 
             task.container.remove();
+
+            toggleTaskDisplay();
         });
 
         return removeBtn;
