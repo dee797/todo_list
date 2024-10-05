@@ -69,14 +69,11 @@
 
             <p>
                 Priority:
-                <input id="high" name="priority" type="radio" value="High" required>
-                <label for="high">High</label>
+                <label>High<input name="priority" type="radio" value="High" required></label>
 
-                <input id="medium" name="priority" type="radio" value="Medium" required>
-                <label for="medium">Medium</label>
+                <label>Medium<input name="priority" type="radio" value="Medium" required></label>
                 
-                <input id="low" name="priority" type="radio" value="Low" required>
-                <label for="low">Low</label>
+                <label>Low<input name="priority" type="radio" value="Low" required></label>
             </p>
 
             <p>
@@ -108,6 +105,21 @@
         </form>
     </dialog>
 
+    <dialog id="changePriority">
+        <form id="priorityForm">
+            <p>
+                Priority:
+                <label>High<input name="priority" type="radio" value="High" required></label>
+
+                <label>Medium<input name="priority" type="radio" value="Medium" required></label>
+                
+                <label>Low<input name="priority" type="radio" value="Low" required></label>
+            </p>
+
+            <button type="button" id="cancelPriority" formmethod="dialog">Cancel</button>
+            <button type="submit" id="submitPriority" formmethod="post">Submit</button>
+        </form>
+    </dialog>
 
 </body>
 </html>
