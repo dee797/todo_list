@@ -1,36 +1,5 @@
-import { Todo, Project, projects } from "./classes.js";
+import { Todo, Project, projects, nodes } from "./classes.js";
 import { appendTask, appendProjects } from "./app.js";
-
-
-const nodes = (function () {
-    const addProjectBtn = document.querySelector("#addProjectBtn");
-    const addTaskBtn = document.querySelector("#addTaskBtn");
-
-    const addProjectDialog = document.querySelector("#addProject");
-    const addTaskDialog = document.querySelector("#addTask");
-
-    const projectForm = document.querySelector("#projectForm");
-    const taskForm = document.querySelector("#taskForm");
-
-    const cancelProjectBtn = document.querySelector("#cancelProject");
-    const cancelTaskBtn = document.querySelector("#cancelTask");
-
-    const projectOptions = document.querySelector("#selectProject");
-
-    const tasksDiv = document.querySelector("#tasks");
-    const projectsDiv = document.querySelector("#projects");
-
-    const taskDescDialog = document.querySelector("#taskDesc");
-    const taskDescForm = document.querySelector("#taskDescForm");
-
-    const cancelDescBtn = document.querySelector("#cancelDesc");
-
-    return { addProjectBtn, addTaskBtn, addProjectDialog, 
-            addTaskDialog, projectForm, taskForm,
-            cancelProjectBtn, cancelTaskBtn, projectOptions,
-            tasksDiv, projectsDiv, taskDescDialog,
-            taskDescForm, cancelDescBtn }
-}());
 
 
 
@@ -80,14 +49,7 @@ function addEvents() {
         const newTask = new Todo(data.title, data.description, data.dueDate,
             data.priority, data.selectProject);
         
-        let projectObj;
-
-        for (const project of projects) {
-            if (project.projectID == data.selectProject) {
-                projectObj = project;
-                break;
-            }
-        }
+        const projectObj = projects.at(parseInt(data.selectProject));
 
         projectObj.addTask(newTask);
 
