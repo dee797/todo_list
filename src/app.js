@@ -1,5 +1,4 @@
-import { nodes } from "./dom";
-import { projects } from "./classes";
+import { projects, nodes } from "./classes";
 
 
 const options = (function () {
@@ -28,12 +27,43 @@ const options = (function () {
     const createPriority = task => {
         const priorityBtn = document.createElement("button");
         priorityBtn.textContent = "Change Priority";
+
+        priorityBtn.addEventListener("click", () => {
+            nodes.priorityForm.reset();
+            const priorityOptions = document.querySelectorAll("#priorityForm input");
+            for (const option of priorityOptions) {
+                if (option.value === task.priority) option.checked = true;
+            }
+
+            nodes.priorityDialog.showModal();
+        });
+
+        nodes.priorityForm.addEventListener("submit", e => {
+            const data = Object.fromEntries(new FormData(nodes.priorityForm));
+            e.preventDefault();
+            task.priority = data.priority;
+
+            const children = task.container.children;
+            const priorityDiv = children.item(2);
+            priorityDiv.textContent = task.priority;
+
+            nodes.priorityDialog.close();
+        })
+
         return priorityBtn;
     }
 
     const createRemove = task => {
         const removeBtn = document.createElement("button");
         removeBtn.textContent = "Delete Task";
+
+        removeBtn.addEventListener("click", () => {
+            const projectObj = projects.at(task.projectID);
+            projectObj.removeTask(task);
+
+            task.container.remove();
+        });
+
         return removeBtn;
     }
 
@@ -45,6 +75,8 @@ const options = (function () {
 function appendTask(task) {
 
     const taskContainer = document.createElement("div");
+    const projectObj = projects.at(task.projectID);
+    taskContainer.classList.add(projectObj.projectName.split(" ").join("_"));
 
     const valueList = Object.values(task);
 
@@ -56,11 +88,9 @@ function appendTask(task) {
 
 
     const taskProject = document.createElement("div");
-    const projectObj = projects.at(task.projectID);
     taskProject.textContent = projectObj.projectName;
     taskContainer.appendChild(taskProject);
 
-    taskContainer.title = projectObj.projectName;
 
     const isDoneCheckbox = document.createElement("input");
     isDoneCheckbox.type = "checkbox";
@@ -76,13 +106,13 @@ function appendTask(task) {
     
     dropDown.appendChild(summary);
     dropDown.appendChild(options.createDetails(task));
-    dropDown.appendChild(options.createPriority());
-    dropDown.appendChild(options.createRemove());
+    dropDown.appendChild(options.createPriority(task));
+    dropDown.appendChild(options.createRemove(task));
     
     taskContainer.appendChild(dropDown);
 
     nodes.tasksDiv.appendChild(taskContainer);
-        
+    task.container = taskContainer;
 }
 
 
@@ -100,7 +130,7 @@ function appendProjects() {
         filterCheckbox.checked = true;
         
         filterCheckbox.addEventListener("click", () => {
-            const taskDivs = document.querySelectorAll(`div[title='${project.projectName}']`);
+            const taskDivs = document.querySelectorAll(`div.${project.projectName.split(" ").join("_")}`);
 
             if (filterCheckbox.checked) {    
                 for (const div of taskDivs) {
@@ -114,7 +144,7 @@ function appendProjects() {
         });
 
         const projectLabel = document.createElement("label");
-        projectLabel.for = filterCheckbox.id;
+        projectLabel.setAttribute("for", filterCheckbox.id);
         projectLabel.textContent = filterCheckbox.id;
 
         projectContainer.appendChild(filterCheckbox);
