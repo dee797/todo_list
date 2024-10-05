@@ -2,17 +2,42 @@ import { nodes } from "./dom";
 import { projects } from "./classes";
 
 
-const taskOptionBtns = (function () {
-    const detailsBtn = document.createElement("button");
-    detailsBtn.textContent = "View/Edit Task Description";
+const options = (function () {
+    
+    const createDetails = task => {
+        const detailsBtn = document.createElement("button");
+        detailsBtn.textContent = "View/Edit Task Description";
 
-    const priorityBtn = document.createElement("button");
-    priorityBtn.textContent = "Change Priority";
+        detailsBtn.addEventListener("click", () => {
+            nodes.taskDescForm.reset();
+            const textArea = document.querySelector("#taskDescForm textarea");
+            textArea.textContent = task.description;
+            nodes.taskDescDialog.showModal();
+        });
 
-    const removeBtn = document.createElement("button");
-    removeBtn.textContent = "Delete Task";
+        nodes.taskDescForm.addEventListener("submit", e => {
+            const data = Object.fromEntries(new FormData(nodes.taskDescForm));
+            e.preventDefault();
+            task.description = data.newDesc;
+            nodes.taskDescDialog.close();
+        })
 
-    return { detailsBtn, priorityBtn, removeBtn };
+        return detailsBtn;
+    }
+
+    const createPriority = task => {
+        const priorityBtn = document.createElement("button");
+        priorityBtn.textContent = "Change Priority";
+        return priorityBtn;
+    }
+
+    const createRemove = task => {
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "Delete Task";
+        return removeBtn;
+    }
+
+    return { createDetails, createPriority, createRemove };
 
 }());
 
@@ -50,9 +75,9 @@ function appendTask(task) {
     summary.textContent = "Options";
     
     dropDown.appendChild(summary);
-    dropDown.appendChild(taskOptionBtns.detailsBtn);
-    dropDown.appendChild(taskOptionBtns.priorityBtn);
-    dropDown.appendChild(taskOptionBtns.removeBtn);
+    dropDown.appendChild(options.createDetails(task));
+    dropDown.appendChild(options.createPriority());
+    dropDown.appendChild(options.createRemove());
     
     taskContainer.appendChild(dropDown);
 
