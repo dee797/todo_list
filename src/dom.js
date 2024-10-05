@@ -15,8 +15,8 @@ function addEvents() {
 
         if (projects.length === 0) {
             projects.push(new Project("Project 1", 0));
-            toggleProjectDisplay(false);
             appendProjects();
+            toggleProjectDisplay();
         }
 
         nodes.projectOptions.textContent = "";
@@ -35,10 +35,16 @@ function addEvents() {
     nodes.projectForm.addEventListener("submit", e => {
         const data = Object.fromEntries(new FormData(nodes.projectForm));
         e.preventDefault();
-        nodes.addProjectDialog.close();
-        projects.push(new Project(data.projectName, projects.length));
-        toggleProjectDisplay(false);
-        appendProjects();
+    
+        const project = projects.find(project => project.projectName === data.projectName);
+
+        if (project !== undefined) alert(`There is already a project named ${data.projectName}.`);
+        else {
+                nodes.addProjectDialog.close();
+                projects.push(new Project(data.projectName, projects.length));
+                appendProjects();
+                toggleProjectDisplay();
+            }
     });
 
 
@@ -53,8 +59,8 @@ function addEvents() {
 
         projectObj.addTask(newTask);
 
-        toggleTaskDisplay(false);
         appendTask(newTask);
+        toggleTaskDisplay();
     });
 
 
@@ -72,13 +78,13 @@ function addEvents() {
     nodes.cancelDescBtn.addEventListener("click", () => {
         nodes.taskDescDialog.close();
         nodes.taskDescForm.reset();
-    })
+    });
 }
 
 
 
-function toggleProjectDisplay(toggleOff) {
-    if (toggleOff) {
+function toggleProjectDisplay() {
+    if (nodes.projectsDiv.textContent === "") {
         document.querySelector("#noProjects").style.display = "block";
         document.querySelector("#projectFilter").style.display = "none";
         document.querySelector("#projects").style.display = "none";
@@ -93,8 +99,8 @@ function toggleProjectDisplay(toggleOff) {
 
 
 
-function toggleTaskDisplay(toggleOff) {
-    if (toggleOff) {
+function toggleTaskDisplay() {
+    if (nodes.tasksDiv.textContent === "") {
         document.querySelector("#noTasks").style.display = "block";
         document.querySelector("#tasks").style.display = "none";
         document.querySelector("#heading").style.display = "none";
@@ -107,4 +113,4 @@ function toggleTaskDisplay(toggleOff) {
 
 
 
-export { addEvents, nodes };
+export { addEvents, nodes, toggleTaskDisplay };
