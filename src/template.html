@@ -8,12 +8,17 @@
 <body>
     <h1>Task Manager</h1>
 
+    <p>
+        <button id="addProjectBtn">Add New Project</button>
+        <button id="addTaskBtn">Add New Task</button>
+    </p>
+
     <section>
         <h1>Projects</h1>
         <p id="noProjects">You currently have no projects.</p>
-        <p id="projectFilter" style="display: none;">Filter By Project</p>
+        <p id="projectFilter" style="display: none;">Filter Tasks By Project</p>
         <div id="projects"></div>
-        <button id="addProjectBtn">Add New Project</button>
+        
     </section>
 
     <section>
@@ -29,7 +34,7 @@
         </div>
 
         <div id="tasks"></div>
-        <button id="addTaskBtn">Add New Task</button>
+        
     </section>
 
     <dialog id="addProject">
@@ -64,14 +69,14 @@
 
             <p>
                 Priority:
-                <label for="high">High</label>
                 <input id="high" name="priority" type="radio" value="High" required>
+                <label for="high">High</label>
 
-                <label for="medium">Medium</label>
                 <input id="medium" name="priority" type="radio" value="Medium" required>
+                <label for="medium">Medium</label>
                 
-                <label for="low">Low</label>
                 <input id="low" name="priority" type="radio" value="Low" required>
+                <label for="low">Low</label>
             </p>
 
             <p>
@@ -85,7 +90,7 @@
 
             <p>
                 Description:
-                <textarea></textarea>
+                <textarea id="description" name="description"></textarea>
             </p>
 
             <button type="button" id="cancelTask" formmethod="dialog">Cancel</button>
@@ -93,5 +98,16 @@
 
         </form>
     </dialog>
+
+    <dialog id="taskDesc">
+        <form id="taskDescForm">
+            <textarea id="newDesc" name="newDesc"></textarea>
+
+            <button type="button" id="cancelDesc" formmethod="dialog">Cancel</button>
+            <button type="submit" id="submitDesc" formmethod="post">Submit</button>
+        </form>
+    </dialog>
+
+
 </body>
 </html>
