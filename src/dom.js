@@ -20,10 +20,16 @@ const nodes = (function () {
     const tasksDiv = document.querySelector("#tasks");
     const projectsDiv = document.querySelector("#projects");
 
+    const taskDescDialog = document.querySelector("#taskDesc");
+    const taskDescForm = document.querySelector("#taskDescForm");
+
+    const cancelDescBtn = document.querySelector("#cancelDesc");
+
     return { addProjectBtn, addTaskBtn, addProjectDialog, 
             addTaskDialog, projectForm, taskForm,
             cancelProjectBtn, cancelTaskBtn, projectOptions,
-            tasksDiv, projectsDiv }
+            tasksDiv, projectsDiv, taskDescDialog,
+            taskDescForm, cancelDescBtn }
 }());
 
 
@@ -101,6 +107,10 @@ function addEvents() {
         nodes.taskForm.reset();
     });
 
+    nodes.cancelDescBtn.addEventListener("click", () => {
+        nodes.taskDescDialog.close();
+        nodes.taskDescForm.reset();
+    })
 }
 
 
