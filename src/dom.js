@@ -75,10 +75,6 @@ function addEvents() {
         nodes.taskForm.reset();
     });
 
-    nodes.cancelDescBtn.addEventListener("click", () => {
-        nodes.taskDescDialog.close();
-        nodes.taskDescForm.reset();
-    });
 }
 
 
@@ -113,4 +109,4 @@ function toggleTaskDisplay() {
 
 
 
-export { addEvents, nodes, toggleTaskDisplay };
+export { addEvents, toggleTaskDisplay, toggleProjectDisplay };
