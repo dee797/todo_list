@@ -1,45 +1,47 @@
-import { projects, nodes } from "./classes";
+import { projects, nodes, setItems } from "./classes";
 import { toggleTaskDisplay } from "./dom";
 
 
 const options = (function () {
     
-    const createDetails = task => {
+    const changeDetails = task => {
+        const detailObjects = nodes.createTaskDescDialog();
         const detailsBtn = document.createElement("button");
         detailsBtn.textContent = "View/Edit Task Description";
 
         detailsBtn.addEventListener("click", () => {
-            nodes.taskDescForm.reset();
-            const textArea = document.querySelector("#taskDescForm textarea");
-            textArea.textContent = task.description;
-            nodes.taskDescDialog.showModal();
+            detailObjects.taskDescForm.reset();
+            detailObjects.textArea.textContent = task.description;
+            detailObjects.taskDescDialog.showModal();
         });
 
-        nodes.taskDescForm.addEventListener("submit", e => {
-            const data = Object.fromEntries(new FormData(nodes.taskDescForm));
+        detailObjects.taskDescForm.addEventListener("submit", e => {
+            const data = Object.fromEntries(new FormData(detailObjects.taskDescForm));
             e.preventDefault();
             task.description = data.newDesc;
-            nodes.taskDescDialog.close();
-        })
+            detailObjects.taskDescDialog.close();
+            setItems();
+
+        });
 
         return detailsBtn;
     }
 
-    const createPriority = task => {
+    const changePriority = task => {
+        const priorityObjects = nodes.createPriorityDialog();
         const priorityBtn = document.createElement("button");
         priorityBtn.textContent = "Change Priority";
 
         priorityBtn.addEventListener("click", () => {
-            nodes.priorityForm.reset();
-            const priorityOptions = Array.from(document.querySelectorAll("#priorityForm input"));
-            const option = priorityOptions.find(option => option.value === task.priority);
+            priorityObjects.priorityForm.reset();
+            const option = priorityObjects.radioBtnList.find(option => option.value === task.priority);
             option.checked = true;
 
-            nodes.priorityDialog.showModal();
+            priorityObjects.priorityDialog.showModal();
         });
 
-        nodes.priorityForm.addEventListener("submit", e => {
-            const data = Object.fromEntries(new FormData(nodes.priorityForm));
+        priorityObjects.priorityForm.addEventListener("submit", e => {
+            const data = Object.fromEntries(new FormData(priorityObjects.priorityForm));
             e.preventDefault();
             task.priority = data.priority;
 
@@ -47,13 +49,15 @@ const options = (function () {
             const priorityDiv = children.item(2);
             priorityDiv.textContent = task.priority;
 
-            nodes.priorityDialog.close();
-        })
+            priorityObjects.priorityDialog.close();
+            setItems();
+
+        });
 
         return priorityBtn;
     }
 
-    const createRemove = task => {
+    const removeTask = task => {
         const removeBtn = document.createElement("button");
         removeBtn.textContent = "Delete Task";
 
@@ -64,12 +68,13 @@ const options = (function () {
             task.container.remove();
 
             toggleTaskDisplay();
+            setItems();
         });
 
         return removeBtn;
     }
 
-    return { createDetails, createPriority, createRemove };
+    return { changeDetails, changePriority, removeTask };
 
 }());
 
@@ -97,8 +102,11 @@ function appendTask(task) {
     const isDoneCheckbox = document.createElement("input");
     isDoneCheckbox.type = "checkbox";
     isDoneCheckbox.addEventListener("click", () => {
-        task.isDone = task.isDone ? false : true; 
+        task.isDone = task.isDone ? false : true;
+        setItems();
     });
+    
+    isDoneCheckbox.checked = task.isDone ? true : false;
     taskContainer.appendChild(isDoneCheckbox);
 
 
@@ -107,14 +115,16 @@ function appendTask(task) {
     summary.textContent = "Options";
     
     dropDown.appendChild(summary);
-    dropDown.appendChild(options.createDetails(task));
-    dropDown.appendChild(options.createPriority(task));
-    dropDown.appendChild(options.createRemove(task));
+    dropDown.appendChild(options.changeDetails(task));
+    dropDown.appendChild(options.changePriority(task));
+    dropDown.appendChild(options.removeTask(task));
     
     taskContainer.appendChild(dropDown);
 
     nodes.tasksDiv.appendChild(taskContainer);
     task.container = taskContainer;
+
+    setItems();
 }
 
 
@@ -153,7 +163,9 @@ function appendProjects() {
         projectContainer.appendChild(projectLabel);
         nodes.projectsDiv.appendChild(projectContainer);
 
-    });
+    });   
+    
+    setItems();
 }
 
 
