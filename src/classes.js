@@ -55,26 +55,114 @@ const nodes = (function () {
     const tasksDiv = document.querySelector("#tasks");
     const projectsDiv = document.querySelector("#projects");
 
-    const taskDescDialog = document.querySelector("#taskDesc");
-    const taskDescForm = document.querySelector("#taskDescForm");
 
-    const cancelDescBtn = document.querySelector("#cancelDesc");
+    const createTaskDescDialog = () => {
+        const taskDescDialog = document.createElement("dialog");
+        const taskDescForm = document.createElement("form");
+        const textArea = document.createElement("textarea");
+        textArea.name = "newDesc";
 
-    const priorityDialog = document.querySelector("#changePriority");
-    const priorityForm = document.querySelector("#priorityForm");
+        const button1 = document.createElement("button");
+        button1.type = "button";
+        button1.formMethod = "dialog";
+        button1.textContent = "Cancel";
+        button1.addEventListener("click", () => {
+            taskDescDialog.close();
+            taskDescForm.reset();
+        });
 
-    const cancelPriorityBtn = document.querySelector("#cancelPriority");
+        const button2 = document.createElement("button");
+        button2.type = "submit";
+        button1.formMethod = "post";
+        button2.textContent = "Submit";
+
+        taskDescDialog.appendChild(taskDescForm);
+        taskDescForm.appendChild(textArea);
+        taskDescForm.appendChild(button1);
+        taskDescForm.appendChild(button2);
+
+        document.body.appendChild(taskDescDialog);
+
+        return {taskDescDialog, taskDescForm, textArea }
+
+    };
+
+    const createPriorityDialog = () => {
+        const priorityDialog = document.createElement("dialog");
+        const priorityForm = document.createElement("form");
+        const pContainer = document.createElement("p");
+        pContainer.textContent = "Priority: ";
+
+        const button1 = document.createElement("button");
+        button1.type = "button";
+        button1.formMethod = "dialog";
+        button1.textContent = "Cancel";
+
+        button1.addEventListener("click", () => priorityDialog.close());
+
+        const button2 = document.createElement("button");
+        button2.type = "submit";
+        button1.formMethod = "post";
+        button2.textContent = "Submit";
+
+        const radioBtnList = [];
+
+        for (let i = 0; i < 3; i++) {
+            let text;
+            let value;
+            switch (i) {
+                case 0:
+                    text = "  High";
+                    value = "High";
+                    break;
+                case 1:
+                    text = "  Medium";
+                    value = "Medium";
+                    break;
+                case 2:
+                    text = "  Low";
+                    value = "Low";
+            }
+
+            const label = document.createElement("label");
+            label.textContent = text;
+
+            const input = document.createElement("input");
+            input.name = "priority";
+            input.type = "radio";
+            input.required = true;
+            input.value = value;
+
+            radioBtnList.push(input);
+            label.appendChild(input);
+            pContainer.appendChild(label);
+
+        }
+
+        priorityForm.appendChild(pContainer);
+        priorityForm.appendChild(button1);
+        priorityForm.appendChild(button2);
+        priorityDialog.appendChild(priorityForm);
+
+        document.body.appendChild(priorityDialog);
+
+        return { radioBtnList, priorityDialog, priorityForm }
+    }
+
 
     return { addProjectBtn, addTaskBtn, addProjectDialog, 
             addTaskDialog, projectForm, taskForm,
             cancelProjectBtn, cancelTaskBtn, projectOptions,
-            tasksDiv, projectsDiv, taskDescDialog,
-            taskDescForm, cancelDescBtn, priorityDialog,
-            priorityForm, cancelPriorityBtn }
+            tasksDiv, projectsDiv, createTaskDescDialog,
+            createPriorityDialog }
 }());
-
 
 
 const projects = [];
 
-export { Todo, Project, projects, nodes }
+const setItems = () => {
+    localStorage.setItem("projects", JSON.stringify(projects));
+}
+
+
+export { Todo, Project, projects, nodes, setItems }
