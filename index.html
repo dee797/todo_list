@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+<script defer src="main.js"></script></head>
+<body>
+    <h1>Task Manager</h1>
+
+    <p>
+        <button id="addProjectBtn">Add New Project</button>
+        <button id="addTaskBtn">Add New Task</button>
+    </p>
+
+    <section>
+        <h1>Projects</h1>
+        <p id="noProjects">You currently have no projects.</p>
+        <p id="projectFilter" style="display: none;">Filter Tasks By Project</p>
+        <div id="projects"></div>
+        
+    </section>
+
+    <section>
+        <h1>Tasks</h1>
+        <p id="noTasks">You currently have no tasks.</p>
+
+        <div id="heading" style="display: none;">
+            <h3>Title</h3>
+            <h3>Due Date</h3>
+            <h3>Priority</h3>
+            <h3>Project</h3>
+            <h3>Completed</h3>
+        </div>
+
+        <div id="tasks"></div>
+        
+    </section>
+
+    <dialog id="addProject">
+        <form id="projectForm">
+            <p>
+                <label>
+                    Project Name:
+                    <input id="projectName" name="projectName" type="text" maxlength="75" autofocus required autocomplete="off">
+                </label>
+            </p>
+
+            <button type="button" id="cancelProject" formmethod="dialog">Cancel</button>
+            <button type="submit" id="submitProject" formmethod="post">Submit</button>
+        </form>
+    </dialog>
+
+    <dialog id="addTask">
+        <form id="taskForm">
+            <p>
+                <label>
+                    Title:
+                    <input id="title" name="title" type="text" maxlength="75" autofocus required autocomplete="off">
+                </label>
+            </p>
+
+            <p>
+                <label>
+                    Due Date:
+                    <input id="dueDate" name="dueDate" type="date" required autocomplete="off">
+                </label>
+            </p>
+
+            <p>
+                Priority:
+                <label>High<input name="priority" type="radio" value="High" required></label>
+
+                <label>Medium<input name="priority" type="radio" value="Medium" required></label>
+                
+                <label>Low<input name="priority" type="radio" value="Low" required></label>
+            </p>
+
+            <p>
+                <label>
+                    Project:
+                    <select name="selectProject" id="selectProject">
+
+                    </select>
+                </label>
+            </p>
+
+            <p>
+                Description:
+                <textarea id="description" name="description"></textarea>
+            </p>
+
+            <button type="button" id="cancelTask" formmethod="dialog">Cancel</button>
+            <button type="submit" id="submitTask" formmethod="post">Submit</button>
+
+        </form>
+    </dialog>
+
+
+</body>
+</html>
